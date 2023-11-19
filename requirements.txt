@@ -9,4 +9,3 @@ sentence-transformers
 libmagic
 python-libmagic
 python-magic
-python-magic-bin
