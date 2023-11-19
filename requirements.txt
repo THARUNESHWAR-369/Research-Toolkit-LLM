@@ -1,8 +1,6 @@
 langchain
 python-dotenv
-streamlit
 unstructured
-tiktoken
 faiss-cpu
 openai
 sentence-transformers
