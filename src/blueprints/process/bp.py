@@ -3,7 +3,7 @@ from flask_cors import CORS, cross_origin
 
 import os
 
-from src.process.process_urls import PROCESS_URLS
+from process.process_urls import PROCESS_URLS
 from typing import Any
 
 class ProcessView:

@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # blueprints
-from src.blueprints.process.bp import ProcessView
-from src.utils.status_codes import *
+from blueprints.process.bp import ProcessView
+from utils.status_codes import *
 
 def create_app():
     
