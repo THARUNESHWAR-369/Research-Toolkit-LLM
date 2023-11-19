@@ -44,8 +44,7 @@ class ResearchToolKit:
     
     print("DOCS: ",self.__docs)
 
-    match self.model_name:
-      case 'OpenAI LLM':
-        return OpenAIModel.run(self.__docs, query)
-      case 'Falcon LLM':
+    if self.model_name == 'OpenAI LLM':
+      return OpenAIModel.run(self.__docs, query)
+    elif self.model_name == 'Falcon LLM':
         return FalconModel.run(self.__docs, self.final_ans_pt, self.chunk_pt, query)

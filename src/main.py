@@ -29,9 +29,12 @@ query = st.text_input("Question: ")
 if process_url_clicked:
     print("Running...")
     print(f"Model={model} | urls={urls} | query={query}")
-    print(ResearchToolKit(model_name=model).run(
+    r = ResearchToolKit(model_name=model).run(
         urls=urls,
-        query=query))
+        query=query)
+    print("\n\nr: ",r)
+    st.header("Answer")
+    st.write(r)
 
 
 

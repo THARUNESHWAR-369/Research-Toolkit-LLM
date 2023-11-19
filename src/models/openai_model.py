@@ -3,9 +3,10 @@ from database.faiss_db import FAISS_DB
 from langchain.llms import OpenAI
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.chains import RetrievalQAWithSourcesChain
+import os
 
 class OpenAIModel:
-  model = OpenAI()
+  model = OpenAI(openai_api_key=os.environ['OPENAI_API_KEY'])
   embeddings = OpenAIEmbeddings()
   db = FAISS_DB
 
