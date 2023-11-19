@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 from flask_cors import CORS
 import os
 
@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # blueprints
-from blueprints.process.bp import ProcessView
-from utils.status_codes import *
+from src.blueprints.process.bp import ProcessView
+from src.utils.status_codes import *
 
 def create_app():
     
