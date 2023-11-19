@@ -7,5 +7,4 @@ faiss-cpu
 openai
 sentence-transformers
 libmagic
-python-libmagic
 python-magic
