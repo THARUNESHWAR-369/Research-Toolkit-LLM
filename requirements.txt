@@ -7,3 +7,4 @@ sentence-transformers
 libmagic
 flask
 gunicorn
+flask_cors
