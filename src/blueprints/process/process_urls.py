@@ -19,5 +19,5 @@ class PROCESS_URLS:
         loader = UnstructuredURLLoader(urls)
         documents = loader.load()
         print("documents: ",documents)
-        return PROCESS_URLS._formatDocuments(documents)
+        return PROCESS_URLS()._formatDocuments(documents)
     
