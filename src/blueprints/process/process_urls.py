@@ -1,6 +1,7 @@
 
 from langchain.document_loaders import UnstructuredURLLoader
 from typing import List, Any
+import re
 
 class PROCESS_URLS:
     
@@ -15,7 +16,8 @@ class PROCESS_URLS:
     
     @staticmethod
     def process_urls(urls : List[str]) -> List[Any]:
-        loader = UnstructuredURLLoader()
-        documents = loader.load(urls)
+        loader = UnstructuredURLLoader(urls)
+        documents = loader.load()
+        print("documents: ",documents)
         return PROCESS_URLS._formatDocuments(documents)
     

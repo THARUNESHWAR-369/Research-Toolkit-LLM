@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask_cors import CORS, cross_origin
 
 import os
@@ -10,6 +10,7 @@ class ProcessView:
     
     def __init__(self) -> None:
         self.bp = Blueprint('process_urls', __name__, url_prefix=f"{os.environ['APP_PREFIX_ENDPOINT']}/process")
+        
         CORS(self.bp)
         
         self.process_urls_model = PROCESS_URLS
@@ -25,12 +26,14 @@ class ProcessView:
         response.headers["Access-Control-Allow-Credentials"] = "true"
         return response
     
-    def process_urls(self, response) -> Any:
+    def process_urls(self) -> Any:
         """Process a list of URLs and return a list of documents chunks()"""
         try:
-            data = response.get_json()
+            data = request.get_json()
 
             urls = data.get('urls', [])
+            
+            print(urls)
 
             result = self.process_urls_model.process_urls(urls)
 
