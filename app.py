@@ -11,11 +11,9 @@ from utils.status_codes import *
 
     
 app = Flask(__name__)
-print("app: ",app)
 CORS(app, origins=[])
 
 app.register_blueprint(ProcessView().bp)
-print("Blueprint registered")
 
 @app.route("/")
 def home():
