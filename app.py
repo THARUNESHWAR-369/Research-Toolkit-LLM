@@ -26,7 +26,6 @@ def handle_404(e):
 @app.errorhandler(SERVER_BUSY_RESPONSE)
 def handle_500(e):
     return jsonify({'error': 'Something went wrong, we are working on it'}), SERVER_BUSY_RESPONSE
-    
 
 if __name__ == "__main__":
     app.run(debug=True)
