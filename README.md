@@ -26,12 +26,12 @@ Enables dynamic and context-aware responses, catering to the nuanced needs of eq
 
 ### Getting Started
 
-> Clone the repository: ```git clone https://github.com/your-username/research-toolkit.git```
+> Clone the repository: ```git clone https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM```
 
 > Install dependencies: ```pip install -r requirements.txt```
 
 ### Usage
 
-> Run the toolkit: ```python main.py```
+> Run the toolkit: ```python app.py```
 
 > Access the UI at ```http://localhost:5000```
