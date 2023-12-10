@@ -3,6 +3,7 @@ from flask_cors import CORS
 import os
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # blueprints
@@ -14,10 +15,6 @@ app = Flask(__name__)
 CORS(app, origins=[])
 
 app.register_blueprint(ProcessView().bp)
-
-@app.route("/")
-def home():
-    return "Hello, Flask!"
 
 @app.errorhandler(NOT_FOUND_RESPONSE)
 def handle_404(e):

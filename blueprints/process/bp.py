@@ -3,8 +3,10 @@ from flask_cors import CORS, cross_origin
 
 import os
 
-from .process_urls import PROCESS_URLS
 from typing import Any
+
+from blueprints.process.process_chunks import PROCESS_CHUNKS
+from blueprints.process.process_scrape import SCRAPER
 
 class ProcessView:
     """
@@ -29,15 +31,17 @@ class ProcessView:
         This method sets up the Flask Blueprint, adds CORS headers,
         and defines the URL rule for processing URLs.
         """
-        self.bp = Blueprint('process_urls', __name__, url_prefix=os.environ['APP_PREFIX_ENDPOINT'] + '/process')
+        self.bp = Blueprint('process', __name__, url_prefix=os.environ['APP_PREFIX_ENDPOINT'] + '/process')
 
         CORS(self.bp)
-
-        self.process_urls_model = PROCESS_URLS
+        
+        self.process_scraper_model = SCRAPER
+        self.process_chunk_model = PROCESS_CHUNKS
 
         self.bp.after_request(self.add_cors_headers)
 
-        self.bp.add_url_rule('/urls/', view_func=self.process_urls, methods=['POST'])
+        self.bp.add_url_rule('/urls/', view_func=self._process_scraper, methods=['POST'])
+        self.bp.add_url_rule('/chunks/', view_func=self._process_chunks, methods=['POST'])
         
     def add_cors_headers(self, response) -> Any:
         """
@@ -55,7 +59,24 @@ class ProcessView:
         response.headers["Access-Control-Allow-Credentials"] = "true"
         return response
     
-    def process_urls(self) -> Any:
+    def _process_chunks(self) -> Any:
+        """
+        Processes the URLs and returns the result.
+
+        Returns:
+            Any: The result of processing the URLs.
+        """
+        try:
+            data = request.get_json() # type: ignore
+
+            result = self.process_chunk_model.process_chunks(data)
+
+            return jsonify(result)
+
+        except Exception as e:
+            return jsonify({'error': str(e)})
+    
+    def _process_scraper(self) -> Any:
         """
         Processes the URLs and returns the result.
 
@@ -67,7 +88,7 @@ class ProcessView:
 
             urls = data.get('urls', [])
 
-            result = self.process_urls_model.process_urls(urls)
+            result = self.process_scraper_model.start_scrape(urls)
 
             return jsonify(result)
 

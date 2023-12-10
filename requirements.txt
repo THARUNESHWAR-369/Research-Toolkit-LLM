@@ -1,10 +1,8 @@
 langchain
 python-dotenv
 unstructured
-faiss-cpu
-openai
-sentence-transformers
-libmagic
+tiktoken
+pinecone-client
+OpenAI
 flask
-gunicorn
-flask_cors
+flask-cors
