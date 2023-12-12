@@ -15,7 +15,6 @@ from blueprints.process.process_chunks import PROCESS_CHUNKS
 from blueprints.process.process_scrape import SCRAPER
 from blueprints.process.process_vectorstore import PROCESS_VECTORSTORE
 
-
 class ProcessView:
     """
     A class representing the process view.
@@ -140,13 +139,12 @@ class ProcessView:
             data = request.get_json() # type: ignore
 
             question = data.get('question', '')
-            chunks_docs = data.get('chunks_docs', [])
+            chunks_doc = data.get('chunks_docs', [])
 
             langchain.debug = False # type: ignore
+
+            chunks_docs = [Documents().from_dict(doc) for doc in chunks_doc]
             
-            if chunks_docs != []:
-                chunks_docs = [Documents().from_dict(doc) for doc in ast.literal_eval(chunks_docs)]
-                
             pinecone_index = self.process_vectorstore_model.index(chunks_docs, self.model_openai.MODEL_EMBEDDINGS)
             
             chain = RetrievalQAWithSourcesChain.from_llm(
