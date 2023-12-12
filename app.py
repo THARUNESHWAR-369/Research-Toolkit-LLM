@@ -1,15 +1,11 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-import os
-
 from dotenv import load_dotenv
-
-load_dotenv()
-
-# blueprints
 from blueprints.process.bp import ProcessView
 from utils.status_codes import *
 
+# Load environment variables from .env file
+load_dotenv()
     
 app = Flask(__name__)
 CORS(app, origins=[])
@@ -22,6 +18,15 @@ def handle_404(e):
 
 @app.errorhandler(SERVER_BUSY_RESPONSE)
 def handle_500(e):
+    """
+    Error handler for 500 Internal Server Error.
+
+    Args:
+        e: The exception object.
+
+    Returns:
+        A JSON response with an error message and the status code.
+    """
     return jsonify({'error': 'Something went wrong, we are working on it'}), SERVER_BUSY_RESPONSE
 
 if __name__ == "__main__":

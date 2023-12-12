@@ -6,3 +6,4 @@ pinecone-client
 OpenAI
 flask
 flask-cors
+gunicorn

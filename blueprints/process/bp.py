@@ -15,6 +15,7 @@ from blueprints.process.process_chunks import PROCESS_CHUNKS
 from blueprints.process.process_scrape import SCRAPER
 from blueprints.process.process_vectorstore import PROCESS_VECTORSTORE
 
+
 class ProcessView:
     """
     A class representing the process view.
