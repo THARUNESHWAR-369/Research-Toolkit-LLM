@@ -1,12 +1,19 @@
+import ast
+from importlib import metadata
 from flask import Blueprint, jsonify, request
-from flask_cors import CORS, cross_origin
-
+from flask_cors import CORS
 import os
 
 from typing import Any
+from langchain.chains import RetrievalQAWithSourcesChain
+import langchain
+from numpy import source
+from blueprints.dto.documents import Documents
+from blueprints.process.models.model_openai import MODEL_OPENAI
 
 from blueprints.process.process_chunks import PROCESS_CHUNKS
 from blueprints.process.process_scrape import SCRAPER
+from blueprints.process.process_vectorstore import PROCESS_VECTORSTORE
 
 class ProcessView:
     """
@@ -37,11 +44,15 @@ class ProcessView:
         
         self.process_scraper_model = SCRAPER
         self.process_chunk_model = PROCESS_CHUNKS
+        self.process_vectorstore_model = PROCESS_VECTORSTORE
+        self.model_openai = MODEL_OPENAI()
 
         self.bp.after_request(self.add_cors_headers)
 
         self.bp.add_url_rule('/urls/', view_func=self._process_scraper, methods=['POST'])
         self.bp.add_url_rule('/chunks/', view_func=self._process_chunks, methods=['POST'])
+        self.bp.add_url_rule('/question_answer_chain/', view_func=self._process_question_answer, methods=['POST'])
+        self.bp.add_url_rule('/question_answer_withqa/', view_func=self._process_question_answer_withQA, methods=['POST'])
         
     def add_cors_headers(self, response) -> Any:
         """
@@ -71,7 +82,7 @@ class ProcessView:
 
             result = self.process_chunk_model.process_chunks(data)
 
-            return jsonify(result)
+            return result
 
         except Exception as e:
             return jsonify({'error': str(e)})
@@ -88,11 +99,65 @@ class ProcessView:
 
             urls = data.get('urls', [])
 
-            result = self.process_scraper_model.start_scrape(urls)
+            docs = self.process_scraper_model.start_scrape(urls)
 
-            return jsonify(result)
+            return docs
 
         except Exception as e:
             return jsonify({'error': str(e)})
         
+    def _process_question_answer(self) -> Any:
+        
+        try:
+            data = request.get_json() # type: ignore
+            # print(type(data), data, data['question'])
+            question = data['question']
+            chunks_docs = data['chunks_docs']
+  
+            if chunks_docs != []:
+                chunks_docs = [Documents().from_dict(doc) for doc in ast.literal_eval(chunks_docs)]
+                
+            pinecone_index = self.process_vectorstore_model.index(chunks_docs, self.model_openai.MODEL_EMBEDDINGS)
+            
+            retrieve_relevant_chunks = self.process_vectorstore_model.retrieve_from_db(pinecone_index, question)
+            
+            sources = " ".join(i for i in set([s.metadata['source'] for s in retrieve_relevant_chunks])) # type: ignore
+            print(sources)
+            
+            openai_chain = self.model_openai.chain()
+            response = openai_chain.run(input_documents=retrieve_relevant_chunks, question=question)
+
+            return jsonify({
+                "answer" : response,
+                "question" : question,
+                "source": sources
+            })
+
+        except Exception as e:
+            return jsonify({'error': str(e)})
+        
+    def _process_question_answer_withQA(self) -> Any:
+        try:
+            data = request.get_json() # type: ignore
+
+            question = data.get('question', '')
+            chunks_docs = data.get('chunks_docs', [])
+
+            langchain.debug = False # type: ignore
+            
+            if chunks_docs != []:
+                chunks_docs = [Documents().from_dict(doc) for doc in ast.literal_eval(chunks_docs)]
+                
+            pinecone_index = self.process_vectorstore_model.index(chunks_docs, self.model_openai.MODEL_EMBEDDINGS)
+            
+            chain = RetrievalQAWithSourcesChain.from_llm(
+                llm=self.model_openai.openai_llm, 
+                retriever=pinecone_index.as_retriever())
+
+            response = chain({"question":question})
+            
+            return response
+
+        except Exception as e:
+            return jsonify({'error': str(e)})
         

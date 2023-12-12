@@ -4,11 +4,11 @@ from typing import Any, List
 from urllib.request import Request, urlopen
 from time import sleep
 from bs4 import BeautifulSoup
-import re
+import json
 
 from flask import jsonify
 
-from blueprints.models.documents import Documents
+from blueprints.dto.documents import Documents
 
 class SCRAPER:
     
@@ -25,10 +25,12 @@ class SCRAPER:
                 html = urlopen(req).read()
                 soup = BeautifulSoup(html, SCRAPER.LXML)
                 data.append(Documents(page_content=soup.get_text(), source=url).to_dict())
-                
+                # data.append(Documents(page_content=soup.get_text(), source=url))
+            # print(data)
         except Exception as e:
             print(f'Unable to extract content from {urls}')
-        return jsonify(data).data.decode('unicode-escape')
+        # return jsonify(data).data.decode('unicode-escape')
+        return json.dumps(data)
     
     
     

@@ -23,9 +23,9 @@ class Documents:
         }
     
     @classmethod
-    def from_dict(cls, data: Any) -> Any:
-        page_content = data.get("page_content", "")
-        source = data.get("metadata", {}).get("source", "")
+    def from_dict(cls, data: dict) -> Any:
+        page_content = data['page_content']
+        source = data['metadata']['source']
         return cls(page_content, source)
         
     def __getitem__(self, key: Any) -> Any:

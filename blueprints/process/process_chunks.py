@@ -4,7 +4,7 @@ import json
 from flask import jsonify
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-from blueprints.models.documents import Documents
+from blueprints.dto.documents import Documents
 
 class PROCESS_CHUNKS:
     
@@ -14,13 +14,13 @@ class PROCESS_CHUNKS:
         self.separator = ['\n\n', '\n', '.']
     
     @staticmethod
-    def process_chunks(data : str) -> Any:
+    def process_chunks(data : List) -> Any:
+
         text_splitter = RecursiveCharacterTextSplitter(
             separators=PROCESS_CHUNKS().separator,
             chunk_size=PROCESS_CHUNKS().chunk_size,
             chunk_overlap=PROCESS_CHUNKS().chunk_overlap
         )
-        data = json.loads(data)
         
         documents = [Documents().from_dict(doc) for doc in data]
         
@@ -28,6 +28,6 @@ class PROCESS_CHUNKS:
         
         dict_data = [Documents(page_content=doc.page_content, source=doc.metadata['source']).to_dict() for doc in docs]
         
-        return jsonify(dict_data).data.decode('unicode-escape')
+        return json.dumps(jsonify(dict_data).data.decode('unicode-escape'))
         
         
