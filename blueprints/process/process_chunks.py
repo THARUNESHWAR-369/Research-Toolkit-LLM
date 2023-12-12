@@ -26,8 +26,8 @@ class PROCESS_CHUNKS:
         
         docs = text_splitter.split_documents(documents=documents)
         
-        dict_data = [Documents(page_content=doc.page_content, source=doc.metadata['source']).to_dict() for doc in docs]
+        dict_data = [Documents(page_content=str(doc.page_content), source=doc.metadata['source']).to_dict() for doc in docs] # type: ignore
         
-        return json.dumps(jsonify(dict_data).data.decode('unicode-escape'))
+        return json.dumps(dict_data)
         
         

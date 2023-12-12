@@ -79,10 +79,10 @@ class ProcessView:
         """
         try:
             data = request.get_json() # type: ignore
+            
+            docs = data.get('docs', [])
 
-            result = self.process_chunk_model.process_chunks(data)
-
-            return result
+            return self.process_chunk_model.process_chunks(docs)
 
         except Exception as e:
             return jsonify({'error': str(e)})
@@ -110,20 +110,18 @@ class ProcessView:
         
         try:
             data = request.get_json() # type: ignore
-            # print(type(data), data, data['question'])
-            question = data['question']
-            chunks_docs = data['chunks_docs']
-  
-            if chunks_docs != []:
-                chunks_docs = [Documents().from_dict(doc) for doc in ast.literal_eval(chunks_docs)]
-                
-            pinecone_index = self.process_vectorstore_model.index(chunks_docs, self.model_openai.MODEL_EMBEDDINGS)
+
+            question = data.get('question', "")
+            chunks_doc = data.get('chunks_docs', [])
+
+            chunks_docs = [Documents().from_dict(doc) for doc in chunks_doc]
+            
+            pinecone_index = self.process_vectorstore_model.index(chunks_docs, self.model_openai.MODEL_EMBEDDINGS) # type: ignore
             
             retrieve_relevant_chunks = self.process_vectorstore_model.retrieve_from_db(pinecone_index, question)
             
             sources = " ".join(i for i in set([s.metadata['source'] for s in retrieve_relevant_chunks])) # type: ignore
-            print(sources)
-            
+                        
             openai_chain = self.model_openai.chain()
             response = openai_chain.run(input_documents=retrieve_relevant_chunks, question=question)
 
