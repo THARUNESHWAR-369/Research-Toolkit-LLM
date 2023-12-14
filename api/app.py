@@ -10,7 +10,6 @@ load_dotenv()
 from blueprints.process.bp import ProcessView
 from utils.status_codes import *
 
-    
 app = Flask(__name__)
 CORS(app, origins=[])
 
