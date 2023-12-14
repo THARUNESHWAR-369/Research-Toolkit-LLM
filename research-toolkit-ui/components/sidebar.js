@@ -77,6 +77,7 @@ function Sidebar() {
                 </div>
               ))}
             </div>
+            <button type='submit' className='border-none outline-none w-full h-fit bg-orange-300/70 backdrop-blur-3xl text-white items-center fl px-2 py-1 rounded-md '>Process</button>
           </div> : <></>}
         </div>
       </div>
