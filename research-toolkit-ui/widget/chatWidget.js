@@ -29,6 +29,11 @@ function ChatWidget({ source, tag = '...', float = 'left', showsourcemodel=false
                         <span onClick={updateSourceWidget} className="chatsettings material-symbols-outlined cursor-pointer text-orange-300/70">
                             settings
                         </span>
+                        <span onClick={() => {
+                            navigator.clipboard.writeText(tag);
+                        }} className="chatsettings material-symbols-outlined cursor-pointer text-orange-300/70">
+                            content_paste
+                        </span>
                     </div>
                 ) : (<></>)}
                 {

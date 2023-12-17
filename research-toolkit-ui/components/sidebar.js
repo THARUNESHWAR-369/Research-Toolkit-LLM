@@ -48,7 +48,10 @@ function Sidebar() {
         console.log(res);
         dispatch(updateConnection(true));
         dispatch(updateScrapper(res));
-      } catch (e) {}
+        setLoader(false);
+      } catch (e) {
+        setLoader(false);
+      }
     }
     else{
       setLoader(false);

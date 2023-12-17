@@ -21,7 +21,7 @@ function ChatContainer() {
       mx-auto relative overflow-x-hidden overflow-y-scroll'>
         {dataDict && dataDict.length > 0 ? (
           dataDict.map((item, index) => (
-            <div key={index}>
+            <div key={index} className='flex flex-col gap-2'>
               <ChatWidget tag={item.question} float={'left'} />
               <ChatWidget showsourcemodel={true} source={item.source} tag={item.answer} float={'right'} />
             </div>

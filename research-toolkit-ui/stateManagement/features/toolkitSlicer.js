@@ -10,8 +10,7 @@ export const toolKitSlicer = createSlice({
         chunk_data : null,
         error_text: null,
         answer_response: [],
-        source_model: false
-    },
+        source_model: false    },
     reducers: {
         updateConnection: (state, action) => {
             state.connection = action.payload;
@@ -31,5 +30,5 @@ export const toolKitSlicer = createSlice({
     }
 });
 
-export const { updateConnection, updateScrapper, updateErrorText, updateAnswerResponse, updateSourceModel } = toolKitSlicer.actions;
+export const { updateConnection, updateScrapper, updateErrorText, updateAnswerResponse, updateSourceModel, updateCopyText } = toolKitSlicer.actions;
 export default toolKitSlicer.reducer;
