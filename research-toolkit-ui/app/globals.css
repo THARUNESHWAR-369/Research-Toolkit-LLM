@@ -54,6 +54,12 @@ body {
   -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
 }
 
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
 .end {
   display: flex;
   justify-content: justify-between;
