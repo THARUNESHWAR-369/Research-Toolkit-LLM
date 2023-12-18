@@ -1,29 +1,33 @@
 
-import { updateErrorText } from '@/stateManagement/features/toolkitSlicer';
+import { setErrorText } from '@/stateManagement/features/actions';
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
-
 
 function NotificationConponent() {
 
     const [status, setStatus] = React.useState(false);
-    const [errorText, setErrorText] = React.useState('');
+    const [errorText, setErrorTextUseState] = React.useState('');
 
     const dispatch = useDispatch();
-    const toolkit_slicer = useSelector(state => state.toolkit_store);
+
+    const toolkit_slicer_connection = useSelector((state) => state.connection);
+
+    const toolkit_slicer_error_text = useSelector((state) => state.error_text);
 
     React.useEffect(() => {
-        setStatus(toolkit_slicer.connection);
-    }, [toolkit_slicer.connection]);
+        setStatus(toolkit_slicer_connection);
+        if (!status) {
+            dispatch(setErrorText('Process the Urls...'));
+        }
+        else {
+            dispatch(setErrorText('Start Question Answering...'));
 
-    React.useEffect(() => {
-        if (!status) { dispatch(updateErrorText('Process the Urls...')); }
-        if (status) { dispatch(updateErrorText('Start Question Answering...')); }
-    }, [status, toolkit_slicer.error_text]);
+        }
+    }, [toolkit_slicer_connection, dispatch, status]);
 
     React.useEffect(()=>{
-        setErrorText(toolkit_slicer.error_text);
-    }, [errorText, toolkit_slicer.error_text]);
+        setErrorTextUseState(toolkit_slicer_error_text);
+    }, [errorText, toolkit_slicer_error_text]);
 
     return (
         <div className='text-white mt-6 text-center w-fit flex relative flex-row-reverse items-center mx-auto my-4 gap-2'>

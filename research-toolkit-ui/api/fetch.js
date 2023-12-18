@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-export async function fetch_process_urls(urls) {
+export async function fetch_process_urls(urls, result_method) {
 
     const process_urls_url = process.env.NEXT_PUBLIC_API_HOST + 'urls/'
     const process_chunks_url = process.env.NEXT_PUBLIC_API_HOST + 'chunks/'
@@ -32,7 +32,7 @@ export async function fetch_process_urls(urls) {
 }
 
 export async function fetch_process_questionAnswer(docs, question, withQA=false) {
-    
+
     let url = withQA ? process.env.NEXT_PUBLIC_API_HOST + 'question_answer_withqa/' : process.env.NEXT_PUBLIC_API_HOST + 'question_answer_chain/'
 
     let data = {

@@ -1,18 +1,32 @@
 import { fetch_process_questionAnswer } from '@/api/fetch';
-import { updateAnswerResponse, updateErrorText } from '@/stateManagement/features/toolkitSlicer';
+import { setAnswerResponse, setErrorText } from '@/stateManagement/features/actions';
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 
 function SearchBar() {
 
     const [chunks, setChunks] = React.useState(null);
+    const [resultMethod, setResultMethod] = React.useState(null);
 
     const dispatch = useDispatch();
-    const toolkit_slicer = useSelector(state => state.toolkit_store);
+
+    const toolkit_slicer_chunk_data = useSelector((state) => state.chunk_data);
+
+    const toolkit_slicer_error_text = useSelector((state) => state.error_text);
+
+    const toolkit_slicer_answer_response = useSelector((state) => state.answer_response);
+
+    const toolkit_slicer_result_method = useSelector((state) => state.result_method);
+
+    React.useEffect(() => { 
+        setResultMethod(toolkit_slicer_result_method);
+    }, [toolkit_slicer_result_method]);
+
 
     React.useEffect(() => {
-        setChunks(toolkit_slicer.chunk_data);
-    }, [toolkit_slicer.chunk_data]);
+        setChunks(toolkit_slicer_chunk_data);
+    }, [toolkit_slicer_chunk_data]);
+
 
     const searchTextRef = useRef('');
 
@@ -20,20 +34,22 @@ function SearchBar() {
         searchTextRef.current = e.target.value;
     };
 
-
     const handleSearch = async () => {
-        
+        dispatch(setErrorText("Fetching Answer..."));
         if (searchTextRef.current.toString().trim().length > 0) {
             try {
-                console.log(toolkit_slicer.error_text)
-                const response = await fetch_process_questionAnswer(chunks, searchTextRef.current.toString().trim(), false);
+                const response = await fetch_process_questionAnswer(chunks, 
+                    searchTextRef.current.toString().trim(), 
+                    (toolkit_slicer_result_method === '2') ? true : false);
 
-                const prev_response = toolkit_slicer.answer_response;
+                const prev_response = toolkit_slicer_answer_response;
                 const new_response = [...prev_response, response];
-                dispatch(updateAnswerResponse(new_response));
+                dispatch(setAnswerResponse(new_response));
+                dispatch(setErrorText("Start Question Answering..."));
+
             } catch (error) {
-                // Handle error if needed
-                console.error("Error fetching question answer:", error);
+                dispatch(setErrorText("Error in searching..."));
+
             }
         }
     };

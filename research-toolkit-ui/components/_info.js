@@ -7,11 +7,12 @@ function InfoComponent() {
     const [status, setStatus] = useState(false);
 
     const dispatch = useDispatch();
-    const toolkit_slicer = useSelector(state => state.toolkit_store);
+
+    const toolkit_slicer_connection = useSelector((state) => state.connection); 
 
     useEffect(() => {
-        setStatus(toolkit_slicer.connection);
-    }, [toolkit_slicer.connection]);
+        setStatus(toolkit_slicer_connection);
+    }, [toolkit_slicer_connection]);
 
     return (
         <div className='absolute right-[1em] float-right flex gap-0 flex-col text-sm'>

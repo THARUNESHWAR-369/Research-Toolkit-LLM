@@ -1,10 +1,8 @@
 "use client";
 
 import { fetch_process_urls } from "@/api/fetch";
-import {
-  updateConnection,
-  updateScrapper,
-} from "@/stateManagement/features/toolkitSlicer";
+import { setConnection, setErrorText, setResultMethod, setScrapper } from "@/stateManagement/features/actions";
+
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,9 +11,13 @@ function Sidebar() {
   const [inputCount, setInputCount] = React.useState(1);
   const [urls, setUrls] = React.useState([""]);
   const [loader, setLoader] = React.useState(false);
+  const [resultMethod, setResultMethodHook] = React.useState(null);
 
   const dispatch = useDispatch();
-  const toolkit_slicer = useSelector(state => state.toolkit_store);
+
+  const toolkit_slicer_connection = useSelector((state) => state.connection);
+  const toolkit_slicer_error_text = useSelector((state) => state.error_text);
+  const toolkit_slicer_result_method = useSelector((state) => state.result_method);
 
   const sidebarArrow = () => {
     setSidebarWidth(!sidebarWidth);
@@ -44,23 +46,40 @@ function Sidebar() {
     if (urls.every((url) => url.length > 0)) {
       const url = process.env.NEXT_PUBLIC_API_HOST + "urls/";
       try {
-        const res = await fetch_process_urls(urls);
-        console.log(res);
-        dispatch(updateConnection(true));
-        dispatch(updateScrapper(res));
+
+        dispatch(setErrorText('Processing urls...'));
+
+        const res = await fetch_process_urls(urls, resultMethod);
+        dispatch(setErrorText('Start Question Answering...'));
+
+        dispatch(setConnection(true));
+        dispatch(setScrapper(res));
+
         setLoader(false);
+
+
       } catch (e) {
+        dispatch(setErrorText('Error in processing...'));
         setLoader(false);
       }
     }
-    else{
+    else {
       setLoader(false);
     }
   };
 
   useEffect(() => {
     setLoader(false);
-  }, [toolkit_slicer.connection]);
+  }, [toolkit_slicer_connection]);
+
+  useEffect(() => {
+    setResultMethodHook(toolkit_slicer_result_method);
+  }, [setResultMethodHook, toolkit_slicer_result_method]);
+
+  const handleResultModeChange = (e) => {
+    const selectedResultMode = e.target.value;
+    dispatch(setResultMethod(selectedResultMode));
+  };
 
   return (
     <>
@@ -68,9 +87,8 @@ function Sidebar() {
         <div className="bg-white w-4 h-4"></div>
       </div>
       <div
-        className={`${
-          sidebarWidth ? "max-w-[20em]" : "w-0"
-        } transition-transform 
+        className={`${sidebarWidth ? "max-w-[20em]" : "w-0"
+          } transition-transform 
       dela  y-500 ease-linear h-[100%] fixed top-0 bg-white/10 shadow-lg backdrop-blur-3xl`}
       >
         <div
@@ -95,7 +113,7 @@ function Sidebar() {
           )}
         </div>
         <div className="delay-[5000]">
-          {sidebarWidth ? (
+          {(sidebarWidth) ? (
             <div className="p-2">
               <div className="flex justify-between text-white cursor-pointer items-center">
                 <h1 className="text-white font-bold text-lg">Urls</h1>
@@ -106,6 +124,7 @@ function Sidebar() {
                   add
                 </span>
               </div>
+
               <div className="inputs py-3">
                 {Array.from({ length: inputCount }).map((_, index) => (
                   <div key={index} className="relative">
@@ -138,11 +157,21 @@ function Sidebar() {
              w-full h-fit bg-orange-300/70 backdrop-blur-3xl text-white items-center
               fl px-2 py-1 rounded-md flex justify-center gap-3 font-black text-md tracking-wider"
               >
-{ loader ? (
+                {loader ? (
                   <span className="spinner  text-white items-center
-              fl px-2 py-1 rounded-md "></span> ) : <></>}
-                { !loader ? (<p>process</p>) : (<p>processing...</p>)}
-              </button>              
+              fl px-2 py-1 rounded-md "></span>) : <></>}
+                {!loader ? (<p>process</p>) : (<p>processing...</p>)}
+              </button>
+
+              <div className='mt-2 text-white'>
+                <p>Choose Result Mode</p>
+
+                <select name="slct" id="slct" onChange={handleResultModeChange}>
+                  <option value="1">Stuff</option>
+                  <option value="2">Map-Reduce</option>
+                </select>
+              </div>
+
 
             </div>
           ) : (
