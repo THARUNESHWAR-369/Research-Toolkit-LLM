@@ -6,7 +6,8 @@
 [![OpenAi Api](https://img.shields.io/badge/OpenAI-Api-red.svg)]([https://shields.io/](https://platform.openai.com/))
 [![PineCone](https://img.shields.io/badge/Pinecone-Package-red.svg)]([https://shields.io/](https://platform.openai.com/))
 [![Python Flask](https://img.shields.io/badge/Python-Flask-red.svg)]([https://shields.io/](https://platform.openai.com/))
-
+[![Render Hosting](https://img.shields.io/badge/Render-Hosting-red.svg)]([https://shields.io/](https://platform.openai.com/))
+[![Vercel Hosting](https://img.shields.io/badge/Vercel-Hosting-red.svg)]([https://shields.io/](https://platform.openai.com/))
 
 
 
