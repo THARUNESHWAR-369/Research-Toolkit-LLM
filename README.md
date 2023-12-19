@@ -1,5 +1,15 @@
 # Research-Toolkit
 
+[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
+[![made-with-NextJs](https://img.shields.io/badge/Made%20with-NextJs-1f425f.svg)](https://nextjs.org/)
+
+[![OpenAi Api](https://img.shields.io/badge/OpenAI-Api-red.svg)]([https://shields.io/](https://platform.openai.com/))
+[![PineCone](https://img.shields.io/badge/Pinecone-Package-red.svg)]([https://shields.io/](https://platform.openai.com/))
+[![Python Flask](https://img.shields.io/badge/Python-Flask-red.svg)]([https://shields.io/](https://platform.openai.com/))
+
+
+
+
 ## Overview 
 The Research Toolkit is a sophisticated chatbot designed specifically for equity researchers. It combines advanced technologies and models to streamline the research process, from data extraction to natural language understanding.
 
