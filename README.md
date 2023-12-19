@@ -41,8 +41,8 @@ The Research Toolkit is an advanced chatbot tailored for equity researchers. It 
 
 ## Architecture
 ![Architecture 1](https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM/assets/84437531/696e0caa-475e-46e2-9dda-3a8a13e02467)
-![Architecture 2](https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM/assets/84437531/8add31ce-d770-44c3-8a6d-5c8df0f0ef92)
 ![Architecture 3](https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM/assets/84437531/31535a70-743a-4509-aed8-d8da22ec9d1e)
+![Architecture 2](https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM/assets/84437531/8add31ce-d770-44c3-8a6d-5c8df0f0ef92)
 
 ## Getting Started
 1. Clone the repository: 
