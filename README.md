@@ -12,7 +12,7 @@
 
 
 ## Overview 
-The Research Toolkit is an advanced chatbot tailored for equity researchers, integrating cutting-edge technologies. It streamlines the research process by incorporating ethical data scraping, semantic embedding using OpenAI, scalable storage with Pinecone, and a dynamic Next.js-based user interface. The toolkit facilitates efficient information retrieval through similarity search, offering a comprehensive solution for researchers to gather, analyze, and interact with relevant data.
+The Research Toolkit is an advanced chatbot tailored for equity researchers. It streamlines the research process by incorporating ethical data scraping, semantic embedding using OpenAI, scalable storage with Pinecone, and a dynamic Next.js-based user interface. The toolkit facilitates efficient information retrieval through similarity search, offering a comprehensive solution for researchers to gather, analyze, and interact with relevant data.
 
 ## Key Features
 - **Data Scraping:** Ethical scraping practices, content quality filters.
