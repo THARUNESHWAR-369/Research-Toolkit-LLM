@@ -3,35 +3,75 @@
 ## Overview 
 The Research Toolkit is a sophisticated chatbot designed specifically for equity researchers. It combines advanced technologies and models to streamline the research process, from data extraction to natural language understanding.
 
-
 ## Key Features
-### 1. Data Retrieval and Storage
+- **Data Scraping:** Ethical scraping practices, content quality filters.
+- **OpenAI Embedding:** Semantic meaning capture, cost-effective choices.
+- **Pinecone Integration:** Scalability, security measures.
+- **Semantic Search:** Training, relevancy ranking.
+- **User Interface (Next.js):** Dynamic and customizable UI, personalization.
 
-Utilizes LangChain for efficient URL scraping, ensuring comprehensive data collection.
+## Technologies Used
+- **Backend:** Python (Flask), Langchain.
+- **Data Processing:** OpenAI Embedding.
+- **Storage:** Pinecone (Vector Database).
+- **User Interface:** Next.js.
 
-Implements Faiss for vector database storage, enabling fast and scalable retrieval.
+## Links
+- **OpenAi Api**: [https://platform.openai.com/](https://platform.openai.com/)
+- **Pinecone Api**: [https://app.pinecone.io/](https://app.pinecone.io/)
 
-### 2. Semantic Search and Embeddings
+## Screenshots
+![Screenshot 1](https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM/assets/84437531/ce849aea-52ff-44d3-ac40-802c84fc9473)
+![Screenshot 2](https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM/assets/84437531/3d3e3bbd-4dc3-48bf-a149-49447db9a023)
+![Screenshot 3](https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM/assets/84437531/75fd7ae5-bf2c-40c8-8d58-2cca7bac2546)
 
-Leverages semantic search algorithms to retrieve relevant data chunks based on user queries.
+## Flow Chart
+![Flow Chart](https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM/assets/84437531/9a39d94c-31f5-4cc2-871a-fa5e06794bee)
 
-Employs OpenAI Embeddings for converting user questions into vectors, enhancing the precision of search results.
+## Architecture
+![Architecture 1](https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM/assets/84437531/696e0caa-475e-46e2-9dda-3a8a13e02467)
+![Architecture 2](https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM/assets/84437531/8add31ce-d770-44c3-8a6d-5c8df0f0ef92)
+![Architecture 3](https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM/assets/84437531/31535a70-743a-4509-aed8-d8da22ec9d1e)
 
-### 3. Advanced NLP Capabilities
+## Getting Started
+1. Clone the repository: 
+    ```bash
+    git clone https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM
+    cd Research-Toolkit-LLM
+    ```
 
-Integrates Hugging Face and OpenAI API to harness state-of-the-art models like GPT and Llamma for prompt engineering.
+2. Run the Api Server
+    ```bash
+    cd api
+    pip install -r requirements.txt
+    ```
 
-Enables dynamic and context-aware responses, catering to the nuanced needs of equity researchers.
+    Create a .env file and add (for api):
+    ```env
+    OPENAI_API_KEY="<your api key>"
+    PINECONE_API_KEY="<your api key>"
+    PINECONE_INDEX_NAME="<your api key>"
+    PINECONE_ENVIRONMENT="<your api key>"
+    ```
 
+    ```bash
+    python app.py
+    ```
 
-### Getting Started
+3. Run the UI
+    ```bash
+    cd research-toolkot-ui
+    ```
 
-> Clone the repository: ```git clone https://github.com/THARUNESHWAR-369/Research-Toolkit-LLM```
+    Create a .env.local file and add (for ui):
+    ```env
+    NEXT_PUBLIC_API_HOST="<your api key>"
+    ```
 
-> Install dependencies: ```pip install -r requirements.txt```
+    ```bash
+    npm install
+    npm run dev
+    ```
 
-### Usage
-
-> Run the toolkit: ```python app.py```
-
-> Access the UI at ```http://localhost:5000```
+4. Access the Api at `http://localhost:5000`
+5. Access the Application at `http://localhost:5173`
